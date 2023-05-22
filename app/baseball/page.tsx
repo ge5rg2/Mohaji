@@ -2,17 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 
-// 참고
-// https://velog.io/@devmoonsh/JavaScript-%EC%88%AB%EC%9E%90%EC%95%BC%EA%B5%AC-%EA%B2%8C%EC%9E%84-%EA%B5%AC%ED%98%84
-/**
- * 3자리 난수 생성 - function
- * 입력한 숫자 결과 리스트 불러오기 -> state array
- * count state 추가 -> count>= 10 시 실패
- */
+// DB를 활용해서 유저가 맞춘 시간으로 타임순위를 기록할 수 있는 기록판 생성
 
 export default function Baseball() {
   const resultElement = document.querySelector('#result');
-  const [chance, setChance] = useState<number>(10);
+  const [chance, setChance] = useState<number>(9);
   const [answer, setAnswer] = useState<number[]>([]);
   const [userAnswer, setUserAnswer] = useState<string>('');
   const [lastUserAnswer, setLastUserAnswer] = useState<number[]>([]);
@@ -24,7 +18,7 @@ export default function Baseball() {
     setUserAnswer('');
     setLastResultAnswer([]);
     setLastUserAnswer([]);
-    setChance(10);
+    setChance(9);
     if (resultElement) {
       resultElement.innerHTML = '';
     }
@@ -46,7 +40,7 @@ export default function Baseball() {
   };
 
   const onAnswerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // 중복체크필요
+    // 중복체크필요, 숫자가 아닌 문자 입력 방지
     const { value } = e.target as HTMLInputElement;
     if (value) {
     }
@@ -95,11 +89,11 @@ export default function Baseball() {
 
   useEffect(() => {
     setAnswer([]);
-    setChance(10);
+    setChance(9);
   }, []);
 
   return (
-    <>
+    <main className="flex flex-col items-center">
       <div>Baseball</div>
       <div id="question">Guess 3 digit random number! Each number is different.</div>
       <div id="result"></div>
@@ -110,7 +104,14 @@ export default function Baseball() {
       </div>
       {isStart ? (
         <form id="answer_form" onSubmit={(e) => onCheck(e)}>
-          <input maxLength={3} value={userAnswer} id="answerInput" type="text" onChange={(e) => onAnswerChange(e)} />
+          <input
+            required={true}
+            maxLength={3}
+            value={userAnswer}
+            id="answerInput"
+            type="text"
+            onChange={(e) => onAnswerChange(e)}
+          />
           <button>submit</button>
         </form>
       ) : (
@@ -131,6 +132,6 @@ export default function Baseball() {
       ) : (
         ''
       )}
-    </>
+    </main>
   );
 }
