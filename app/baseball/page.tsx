@@ -14,6 +14,7 @@ export default function Baseball() {
   const [isStart, setIsStart] = useState<boolean>(false);
   const [isHomerun, setIsHomeRun] = useState<boolean>(false);
 
+  /** 리셋 혹은 시작 함수 */
   const onReset = () => {
     setUserAnswer('');
     setLastResultAnswer([]);
@@ -26,6 +27,7 @@ export default function Baseball() {
     setIsStart(true);
   };
 
+  /** 난수 생성 함수 */
   const random_number = async () => {
     if (answer.length === 3) {
       setAnswer([]);
@@ -39,20 +41,42 @@ export default function Baseball() {
     setAnswer(newAnswer);
   };
 
+  /** Input 변경 시 동작 함수 */
   const onAnswerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // 중복체크필요, 숫자가 아닌 문자 입력 방지
     const { value } = e.target as HTMLInputElement;
-    if (value) {
+    const numericRegex = /^[0-9]+$/;
+
+    if (!numericRegex.test(value)) {
+      return;
     }
-    setUserAnswer(value);
+    if (value) {
+      const newArr = value.split('');
+      if (newArr.length > 1) {
+        const checkDuplicate = newArr.filter((el, index) => el === newArr[index - 1]);
+        if (checkDuplicate.length > 0 || newArr[0] === newArr[newArr.length - 1]) {
+          return;
+        } else {
+          setUserAnswer(value);
+        }
+      } else {
+        setUserAnswer(value);
+      }
+    } else {
+      setUserAnswer(value);
+    }
   };
 
+  /** 제출 시 동작 함수 */
   const onCheck = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLastUserAnswer((pre) => [...pre, Number(userAnswer)]);
     if (userAnswer === answer.join('')) {
       // 정답을 맞췄을 경우
       alert('Home run!');
+      if (resultElement) {
+        setLastResultAnswer((pre) => [...pre, 'HOMERUN']);
+        resultElement.innerHTML = 'Homerun!!!👏';
+      }
       setIsHomeRun(true);
       setUserAnswer('');
       setIsStart(false);
@@ -64,7 +88,7 @@ export default function Baseball() {
       let life = chance;
       if (life < 1) {
         // 10번 넘게 틀린 경우
-        alert('fail');
+        alert(`fail!! the answer is ${{ ...answer }}`);
         setUserAnswer('');
         random_number();
         setChance(10);
@@ -79,10 +103,17 @@ export default function Baseball() {
         }
 
         if (resultElement) {
-          setLastResultAnswer((pre) => [...pre, strike + ' strike ' + ball + ' ball ']);
-          resultElement.innerHTML = strike + ' strike ' + ball + ' ball ';
+          if (strike == 0 && ball == 0) {
+            setLastResultAnswer((pre) => [...pre, 'OUT']);
+            resultElement.innerHTML = 'OUT 😩';
+          } else {
+            setLastResultAnswer((pre) => [...pre, strike + ' strike ' + ball + ' ball ']);
+            resultElement.innerHTML = strike + ' strike ' + ball + ' ball ';
+          }
         }
       }
+
+      setUserAnswer('');
       console.log(answer);
     }
   };
@@ -94,10 +125,10 @@ export default function Baseball() {
 
   return (
     <main className="flex flex-col items-center">
-      <div>Baseball</div>
+      <div>Baseball ⚾️</div>
       <div id="question">Guess 3 digit random number! Each number is different.</div>
       <div id="result"></div>
-      {/* <div>{...answer}</div> */}
+      <div>{...answer}</div>
       <div>
         <span>Your chance: {chance}</span>
         <span id="remainedChance"></span>
@@ -118,15 +149,15 @@ export default function Baseball() {
         ''
       )}
 
-      <button onClick={onReset}>{isStart ? 'reset' : isHomerun ? 'again?' : 'start!'}</button>
+      <button onClick={onReset}>{isStart ? 'Reset' : isHomerun ? 'Try again?' : 'Start!'}</button>
       {lastUserAnswer.length > 0 ? (
         <div>
           last answer
           {lastUserAnswer.map((e, index) => (
-            <>
-              <div>{e}</div>
-              <span>{lastResultAnswer[index]}</span>
-            </>
+            <div>
+              <span className="m-2">{e}</span>
+              <span className="m-2">{lastResultAnswer[index]}</span>
+            </div>
           ))}
         </div>
       ) : (
