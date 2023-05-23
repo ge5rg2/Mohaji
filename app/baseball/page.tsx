@@ -2,7 +2,10 @@
 
 import React, { useEffect, useState } from 'react';
 
-// DB를 활용해서 유저가 맞춘 시간으로 타임순위를 기록할 수 있는 기록판 생성
+/**
+ * DB를 활용해서 유저가 맞춘 시간으로 타임순위를 기록할 수 있는 기록판 생성
+ * 추후 4숫자 맞히기 등 난이도 조절 필요
+ */
 
 export default function Baseball() {
   const resultElement = document.querySelector('#result');

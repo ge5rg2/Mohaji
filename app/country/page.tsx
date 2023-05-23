@@ -5,10 +5,12 @@ import { useEffect, useState } from 'react';
 export default function Country() {
   const [capital, setCapital] = useState<[string, string][]>([]);
   const [counter, setCounter] = useState<number>(3);
+  const [quizCounter, setQuizCounter] = useState<number>(6);
   const [start, setStart] = useState<boolean>(false);
   const [isOver, setIsOver] = useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
-  let intervalId: NodeJS.Timeout | null = null;
+  let gameStartIntervalId: NodeJS.Timeout | null = null;
+  let countDownIntervalId: NodeJS.Timeout | null = null;
 
   /** 구조분해 할당으로 배열 순서를 랜덤하게 변경해주는 함수 */
   const shuffleArray = (array: [string, string][]) => {
@@ -20,6 +22,26 @@ export default function Country() {
     return newArray;
   };
 
+  /** 게임 시작 시 동작하는 카운트 다운 함수 */
+  const setCountDown = () => {
+    if (countDownIntervalId) {
+      clearInterval(countDownIntervalId);
+      countDownIntervalId = null;
+    }
+    // setTimeout 으로 바꿔보기
+    countDownIntervalId = setInterval(() => {
+      setQuizCounter((prevCounter) => {
+        if (prevCounter > 0) {
+          return prevCounter - 1;
+        } else {
+          clearInterval(countDownIntervalId!);
+          return prevCounter;
+        }
+      });
+    }, 1000);
+  };
+
+  /** 정답 제출 시 동작하는 함수 */
   const onSubmitAnswer = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const inputElement = (e.currentTarget as HTMLFormElement).elements.namedItem('userAnswer') as HTMLInputElement;
@@ -29,7 +51,11 @@ export default function Country() {
       if (score + 1 == capital.length) {
         alert('You all passed!!');
       } else {
+        countDownIntervalId = null;
+        clearInterval(countDownIntervalId!);
+        setQuizCounter(6);
         setScore((pre) => ++pre);
+        setCountDown();
       }
     } else {
       /** 남은 점수 및 reset 진행 */
@@ -50,16 +76,18 @@ export default function Country() {
       let parsedData = JSON.parse(result);
       setStart(true);
       setCapital(shuffleArray(Object.entries(parsedData)));
-      intervalId = setInterval(() => {
+      gameStartIntervalId = setInterval(() => {
         setCounter((prevCounter) => {
           if (prevCounter > 0) {
             return prevCounter - 1;
           } else {
-            clearInterval(intervalId!);
+            clearInterval(gameStartIntervalId!);
+            setCountDown();
             return prevCounter;
           }
         });
-      }, 1000); // 1초마다 숫자를 감소시키도록 설정
+      }, 1000);
+      // 1초마다 숫자를 감소시키도록 설정
     } catch (error) {
       console.log(error);
     }
@@ -70,15 +98,16 @@ export default function Country() {
     setScore(0);
     setIsOver(false);
     setCounter(3);
+    setQuizCounter(6);
   };
 
   useEffect(() => {
-    /*     return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-        intervalId = null;
+    return () => {
+      if (countDownIntervalId) {
+        clearInterval(countDownIntervalId);
+        countDownIntervalId = null;
       }
-    }; */
+    };
   }, []);
 
   return (
@@ -106,8 +135,9 @@ export default function Country() {
           </>
         ) : (
           <>
-            <div>{capital[score][0]}</div>
             <div>Score: {score}</div>
+            <div>{capital[score][0]}</div>
+            <div>{quizCounter}</div>
             <div>
               <form onSubmit={(e) => onSubmitAnswer(e)}>
                 <input name="userAnswer" className="border border-black mr" type="text" required={true} />
