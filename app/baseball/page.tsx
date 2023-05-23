@@ -136,6 +136,7 @@ export default function Baseball() {
       {isStart ? (
         <form id="answer_form" onSubmit={(e) => onCheck(e)}>
           <input
+            className="border border-black mr"
             required={true}
             maxLength={3}
             value={userAnswer}
