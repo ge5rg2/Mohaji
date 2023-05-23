@@ -9,6 +9,9 @@ export default function Country() {
   const [start, setStart] = useState<boolean>(false);
   const [isOver, setIsOver] = useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
+  // 인터벌이 중복 호출되는 것을 방지하기 위한 state
+  const [countDownRunning, setCountDownRunning] = useState<boolean>(false);
+
   let gameStartIntervalId: NodeJS.Timeout | null = null;
   let countDownIntervalId: NodeJS.Timeout | null = null;
 
@@ -24,17 +27,20 @@ export default function Country() {
 
   /** 게임 시작 시 동작하는 카운트 다운 함수 */
   const setCountDown = () => {
-    if (countDownIntervalId) {
-      clearInterval(countDownIntervalId);
-      countDownIntervalId = null;
+    // 이미 실행 중인 경우, 중복 호출 방지
+    if (countDownRunning) {
+      return;
     }
-    // setTimeout 으로 바꿔보기
+
+    setCountDownRunning(true);
+
     countDownIntervalId = setInterval(() => {
       setQuizCounter((prevCounter) => {
         if (prevCounter > 0) {
           return prevCounter - 1;
         } else {
           clearInterval(countDownIntervalId!);
+          setCountDownRunning(false); // 실행이 완료되었음을 표시
           return prevCounter;
         }
       });
@@ -51,8 +57,6 @@ export default function Country() {
       if (score + 1 == capital.length) {
         alert('You all passed!!');
       } else {
-        countDownIntervalId = null;
-        clearInterval(countDownIntervalId!);
         setQuizCounter(6);
         setScore((pre) => ++pre);
         setCountDown();
