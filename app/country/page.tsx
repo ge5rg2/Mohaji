@@ -1,6 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
+
+// 클리어 시간 설정
 
 export default function Country() {
   const [capital, setCapital] = useState<[string, string][]>([]);
@@ -8,12 +10,13 @@ export default function Country() {
   const [quizCounter, setQuizCounter] = useState<number>(6);
   const [start, setStart] = useState<boolean>(false);
   const [isOver, setIsOver] = useState<boolean>(false);
+  const [isClear, setIsClear] = useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
   // 인터벌이 중복 호출되는 것을 방지하기 위한 state
   const [countDownRunning, setCountDownRunning] = useState<boolean>(false);
 
-  let gameStartIntervalId: NodeJS.Timeout | null = null;
-  let countDownIntervalId: NodeJS.Timeout | null = null;
+  const gameStartIntervalId = useRef<NodeJS.Timeout | null>(null);
+  const countDownIntervalId = useRef<NodeJS.Timeout | null>(null);
 
   /** 구조분해 할당으로 배열 순서를 랜덤하게 변경해주는 함수 */
   const shuffleArray = (array: [string, string][]) => {
@@ -31,16 +34,17 @@ export default function Country() {
     if (countDownRunning) {
       return;
     }
-
     setCountDownRunning(true);
 
-    countDownIntervalId = setInterval(() => {
+    countDownIntervalId.current = setInterval(() => {
       setQuizCounter((prevCounter) => {
-        if (prevCounter > 0) {
+        if (prevCounter > 1) {
           return prevCounter - 1;
         } else {
-          clearInterval(countDownIntervalId!);
+          clearInterval(countDownIntervalId.current!);
           setCountDownRunning(false); // 실행이 완료되었음을 표시
+          alert('Time out!');
+          setIsOver(true);
           return prevCounter;
         }
       });
@@ -55,7 +59,11 @@ export default function Country() {
     if (capital[score][1] == inputAnswer) {
       /** 전부 다 맞춘 경우 */
       if (score + 1 == capital.length) {
+        clearInterval(countDownIntervalId.current!);
+        setCountDownRunning(false);
         alert('You all passed!!');
+        setIsClear(true);
+        setIsOver(true);
       } else {
         setQuizCounter(6);
         setScore((pre) => ++pre);
@@ -64,6 +72,8 @@ export default function Country() {
     } else {
       /** 남은 점수 및 reset 진행 */
       alert('fail!');
+      clearInterval(countDownIntervalId.current!);
+      setCountDownRunning(false);
       setIsOver(true);
     }
     return (inputElement.value = '');
@@ -80,12 +90,12 @@ export default function Country() {
       let parsedData = JSON.parse(result);
       setStart(true);
       setCapital(shuffleArray(Object.entries(parsedData)));
-      gameStartIntervalId = setInterval(() => {
+      gameStartIntervalId.current = setInterval(() => {
         setCounter((prevCounter) => {
           if (prevCounter > 0) {
             return prevCounter - 1;
           } else {
-            clearInterval(gameStartIntervalId!);
+            clearInterval(gameStartIntervalId.current!);
             setCountDown();
             return prevCounter;
           }
@@ -102,17 +112,12 @@ export default function Country() {
     setScore(0);
     setIsOver(false);
     setCounter(3);
+    clearInterval(countDownIntervalId.current!);
+    clearInterval(gameStartIntervalId.current!);
+    setCountDownRunning(false);
     setQuizCounter(6);
   };
-
-  useEffect(() => {
-    return () => {
-      if (countDownIntervalId) {
-        clearInterval(countDownIntervalId);
-        countDownIntervalId = null;
-      }
-    };
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <main className="flex flex-col items-center">
@@ -133,7 +138,7 @@ export default function Country() {
           <div>{counter}</div>
         ) : isOver ? (
           <>
-            <div>Answer: {capital[score][1]}</div>
+            {isClear ? <div>Congratuation!👏</div> : <div>Answer: {capital[score][1]}</div>}
             <div>Score: {score}</div>
             <button onClick={onRestart}>Restart</button>
           </>
