@@ -15,8 +15,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <Link href="/" className="logo">
             Mohaji
           </Link>
-          <Link href="/baseball">baseball</Link>
-          <Link href="/country">country</Link>
+          <Link href="/baseball">Baseball</Link>
+          <Link href="/country">Country</Link>
+          <Link href="/gpt">Gpt</Link>
         </div>
         {children}
       </body>

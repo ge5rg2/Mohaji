@@ -157,12 +157,15 @@ export default function Baseball() {
       {lastUserAnswer.length > 0 ? (
         <div>
           last answer
-          {lastUserAnswer.map((e, index) => (
-            <div>
-              <span className="m-2">{e}</span>
-              <span className="m-2">{lastResultAnswer[index]}</span>
-            </div>
-          ))}
+          {lastUserAnswer
+            .slice()
+            .reverse()
+            .map((e, index) => (
+              <div>
+                <span className="m-2">{e}</span>
+                <span className="m-2">{lastResultAnswer[lastResultAnswer.length - 1 - index]}</span>
+              </div>
+            ))}
         </div>
       ) : (
         ''
