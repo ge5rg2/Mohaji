@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 export default function Gpt() {
   const [question, setQuestion] = useState('');
-  const [resultImg, setResultImg] = useState('');
+  //const [resultImg, setResultImg] = useState('');
   const [answer, setAnswer] = useState();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -23,24 +23,30 @@ export default function Gpt() {
       if (response.status !== 200) {
         throw data.error || new Error(`request failed with status ${response.status}`);
       }
-      debugger;
-      setResultImg(data.result.data[0].url);
-      //setAnswer(data.result);
+      console.log(data.result.choices[0].message.content);
+
+      //setResultImg(data.result.data[0].url);
+      setAnswer(data.result.choices[0].message.content);
       setQuestion('');
     } catch (error) {
       console.log(error);
     }
   };
   return (
-    <main>
+    <main className="flex flex-col items-center">
       <div>GPT</div>
       <>
         <form onSubmit={handleSubmit}>
-          <input type="text" value={question} onChange={(e) => setQuestion(e.target.value)} />
+          <input
+            className="border border-black mr"
+            type="text"
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+          />
           <button type="submit">질문하기</button>
         </form>
         <div>{answer}</div>
-        <img src={resultImg} />
+        {/*  <img src={resultImg} /> */}
       </>
     </main>
   );
