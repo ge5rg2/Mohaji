@@ -17,7 +17,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </Link>
           <Link href="/baseball">Baseball</Link>
           <Link href="/country">Country</Link>
-          <Link href="/gpt">Gpt</Link>
+          <Link href="/gpt">Play with GPT</Link>
         </div>
         {children}
       </body>

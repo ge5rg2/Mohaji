@@ -5,9 +5,10 @@ import React, { useEffect, useState } from 'react';
 export default function Gpt() {
   const [question, setQuestion] = useState('');
   //const [resultImg, setResultImg] = useState('');
-  const [answer, setAnswer] = useState();
+  const [answer, setAnswer] = useState<string[]>([]);
+  const [qusArr, setQusArr] = useState<string[]>([]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onHandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
@@ -23,10 +24,10 @@ export default function Gpt() {
       if (response.status !== 200) {
         throw data.error || new Error(`request failed with status ${response.status}`);
       }
-      console.log(data.result.choices[0].message.content);
-
+      let ans = data.result.choices[0].message.content;
+      setQusArr((pre) => [...pre, question]);
       //setResultImg(data.result.data[0].url);
-      setAnswer(data.result.choices[0].message.content);
+      setAnswer((pre) => [...pre, ans]);
       setQuestion('');
     } catch (error) {
       console.log(error);
@@ -34,18 +35,26 @@ export default function Gpt() {
   };
   return (
     <main className="flex flex-col items-center">
-      <div>GPT</div>
+      <div>🤖GPT와 끝말잇기</div>
       <>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={onHandleSubmit}>
           <input
             className="border border-black mr"
             type="text"
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
           />
-          <button type="submit">질문하기</button>
+          <button type="submit">제시어</button>
         </form>
-        <div>{answer}</div>
+        <div>
+          {qusArr.map((el, index) => (
+            <div key={index}>
+              <span>{index + 1}R</span>
+              <span>🧑{el}</span>
+              <span>🤖{answer[index]}</span>
+            </div>
+          ))}
+        </div>
         {/*  <img src={resultImg} /> */}
       </>
     </main>
