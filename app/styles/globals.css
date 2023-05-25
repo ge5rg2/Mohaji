@@ -37,3 +37,12 @@ body {
 .logo {
   font-weight: bold;
 }
+
+.custom-button {
+  color: white;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 1rem /* 16px */;
+}
