@@ -46,3 +46,19 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 1rem /* 16px */;
 }
+
+.tpyebutton {
+  background-color: transparent;
+  color: #000;
+  border: 1px solid #000;
+  border-radius: 50%;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.tpyebutton:hover {
+  background-color: #f7f7f7;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}

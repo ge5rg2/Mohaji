@@ -17,7 +17,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           messages: [
             {
               role: 'system',
-              content: `Let's play "10 Questions" game! If you understand the game and are ready to play, answer "START🤖".`,
+              content: `Let's play "10 Questions" game! You come up with the answer, I'll ask you the question and try to guess it.  If I get it right within 10 rounds, say "YOU WIN!" and if I don't, say "YOU LOOSE".`,
             },
             ...pre,
             { role: 'user', content: question },
@@ -47,9 +47,9 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           messages: [
             {
               role: 'system',
-              content: `Let's play "10 Questions" game! If you understand the game and are ready to play, answer "START🤖".`,
+              content: `Let's play "10 Questions" game! You come up with the answer, I'll ask you the question and try to guess it. If I get it right within 10 rounds, say "YOU WIN!" and if I don't, say "YOU LOOSE".`,
             },
-            { role: 'user', content: 'r u ready?' },
+            { role: 'user', content: 'If you understand the game and are ready to play, answer "START🤖".' },
           ],
           temperature: 0.6,
         },
