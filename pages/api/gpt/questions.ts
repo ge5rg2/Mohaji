@@ -56,7 +56,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
               content:
                 tpye == 'q'
                   ? 'If you understand the game and are ready to play, answer "START🤖".'
-                  : `Begin with the first query.`,
+                  : `let's Begin with the first query.`,
             },
           ],
           temperature: 0.6,

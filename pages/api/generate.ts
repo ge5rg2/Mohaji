@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv';
-import { Configuration, OpenAIApi } from 'openai';
+import { Configuration } from 'openai';
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 
@@ -8,7 +8,6 @@ dotenv.config({ path: __dirname + '/.env' });
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
-const openai = new OpenAIApi(configuration);
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   if (!configuration.apiKey) {

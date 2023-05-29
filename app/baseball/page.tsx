@@ -35,10 +35,10 @@ export default function Baseball() {
     if (answer.length === 3) {
       setAnswer([]);
     }
-    let number_candidate = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    let newAnswer = [];
-    for (var i = 0; i < 3; i += 1) {
-      var picked = number_candidate.splice(Math.floor(Math.random() * (9 - i)), 1)[0];
+    const number_candidate = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const newAnswer = [];
+    for (let i = 0; i < 3; i += 1) {
+      let picked = number_candidate.splice(Math.floor(Math.random() * (9 - i)), 1)[0];
       newAnswer.push(picked);
     }
     setAnswer(newAnswer);
@@ -84,11 +84,11 @@ export default function Baseball() {
       setUserAnswer('');
       setIsStart(false);
     } else {
-      let answer_array = userAnswer.split('');
+      const answer_array = userAnswer.split('');
       let strike = 0;
       let ball = 0;
       setChance((lastChance) => (lastChance -= 1));
-      let life = chance;
+      const life = chance;
       if (life < 1) {
         // 10번 넘게 틀린 경우
         alert(`fail!! the answer is ${{ ...answer }}`);
@@ -97,7 +97,7 @@ export default function Baseball() {
         setChance(10);
       } else {
         // 10번 미만으로 틀린 경우
-        for (var i = 0; i < 3; i += 1) {
+        for (let i = 0; i < 3; i += 1) {
           if (Number(answer_array[i]) === answer[i]) {
             strike += 1;
           } else if (answer.indexOf(Number(answer_array[i])) > -1) {
@@ -131,7 +131,7 @@ export default function Baseball() {
       <div>Baseball ⚾️</div>
       <div id="question">Guess 3 digit random number! Each number is different.</div>
       <div id="result"></div>
-      <div>{...answer}</div>
+      {/* <div>{...answer}</div> */}
       <div>
         <span>Your chance: {chance}</span>
         <span id="remainedChance"></span>
@@ -161,7 +161,7 @@ export default function Baseball() {
             .slice()
             .reverse()
             .map((e, index) => (
-              <div>
+              <div key={index}>
                 <span className="m-2">{e}</span>
                 <span className="m-2">{lastResultAnswer[lastResultAnswer.length - 1 - index]}</span>
               </div>
