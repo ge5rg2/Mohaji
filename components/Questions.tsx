@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 /**
  * 10개의 질문에 대한 인식을 못함
@@ -26,7 +26,7 @@ export default function Questions() {
     setKeyword(name);
   };
 
-  const onStart = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const onStart = async () => {
     try {
       const response = await fetch('/api/gpt/questions', {
         method: 'POST',
@@ -40,7 +40,7 @@ export default function Questions() {
         throw data.error || new Error(`request failed with status ${response.status}`);
       }
       setStart(true);
-      let ans = data.result.choices[0].message.content;
+      const ans = data.result.choices[0].message.content;
       setAnswer((pre) => [...pre, { role: 'assistant', content: ans }]);
       setWholeChat((pre) => [...pre, { role: 'assistant', content: ans }]);
     } catch (error) {
@@ -68,7 +68,7 @@ export default function Questions() {
       if (response.status !== 200) {
         throw data.error || new Error(`request failed with status ${response.status}`);
       }
-      let ans = data.result.choices[0].message.content;
+      const ans = data.result.choices[0].message.content;
       setQusArr((pre) => [...pre, { role: 'user', content: question }]);
       //setResultImg(data.result.data[0].url);
       setAnswer((pre) => [...pre, { role: 'assistant', content: ans }]);
@@ -78,8 +78,6 @@ export default function Questions() {
       console.log(error);
     }
   };
-
-  useEffect(() => {}, []);
 
   return (
     <div className="flex flex-col items-center">
@@ -121,7 +119,7 @@ export default function Questions() {
         </>
       ) : type !== '' ? (
         keyword ? (
-          <button className="custom-button bg-blue-500 hover:bg-blue-600" onClick={(e) => onStart(e)}>
+          <button className="custom-button bg-blue-500 hover:bg-blue-600" onClick={onStart}>
             START!
           </button>
         ) : (

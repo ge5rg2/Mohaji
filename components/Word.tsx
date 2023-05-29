@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 export default function Word() {
   const [question, setQuestion] = useState('');
@@ -8,7 +8,7 @@ export default function Word() {
   const [qusArr, setQusArr] = useState<any[]>([]);
   const [wholeChat, setWholeChat] = useState<any[]>([]);
 
-  const onStart = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const onStart = async () => {
     try {
       const response = await fetch('/api/gpt/wordchain', {
         method: 'POST',
@@ -21,7 +21,7 @@ export default function Word() {
       if (response.status !== 200) {
         throw data.error || new Error(`request failed with status ${response.status}`);
       }
-      let ans = data.result.choices[0].message.content;
+      const ans = data.result.choices[0].message.content;
       setAnswer((pre) => [...pre, { role: 'assistant', content: ans }]);
       setWholeChat((pre) => [...pre, { role: 'assistant', content: ans }]);
     } catch (error) {
@@ -30,7 +30,6 @@ export default function Word() {
   };
 
   const onHandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    debugger;
     e.preventDefault();
     try {
       const response = await fetch('/api/gpt/wordchain', {
@@ -45,7 +44,7 @@ export default function Word() {
       if (response.status !== 200) {
         throw data.error || new Error(`request failed with status ${response.status}`);
       }
-      let ans = data.result.choices[0].message.content;
+      const ans = data.result.choices[0].message.content;
       setQusArr((pre) => [...pre, { role: 'user', content: question }]);
       //setResultImg(data.result.data[0].url);
       setAnswer((pre) => [...pre, { role: 'assistant', content: ans }]);
@@ -55,8 +54,6 @@ export default function Word() {
       console.log(error);
     }
   };
-
-  useEffect(() => {}, []);
 
   return (
     <div className="flex flex-col items-center">
@@ -71,7 +68,7 @@ export default function Word() {
         <button type="submit">제시어</button>
       </form>
       <div>
-        <button onClick={(e) => onStart(e)}>START!</button>
+        <button onClick={onStart}>START!</button>
         {answer.length > 0 ? <div>{answer[0].content}</div> : ''}
         {qusArr.map((el, index) => (
           <div key={index}>

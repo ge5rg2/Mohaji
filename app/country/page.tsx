@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 
 export default function Country() {
   const [capital, setCapital] = useState<[string, string][]>([]);
@@ -97,7 +97,7 @@ export default function Country() {
     try {
       const response = await fetch(`/api/capital?level=${inputNumber}`, { method: 'GET' });
       const result = await response.json();
-      let parsedData = JSON.parse(result);
+      const parsedData = JSON.parse(result);
       setStart(true);
       setCapital(shuffleArray(Object.entries(parsedData)));
       gameStartIntervalId.current = setInterval(() => {
@@ -131,7 +131,6 @@ export default function Country() {
     setQuizCounter(6);
     setStopwatch(1);
   };
-  useEffect(() => {}, []);
 
   return (
     <main className="flex flex-col items-center">
