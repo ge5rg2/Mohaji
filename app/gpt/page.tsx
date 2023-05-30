@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Questions from 'components/Questions';
 import Emoji from 'components/Emoji';
 import Word from 'components/Word';
