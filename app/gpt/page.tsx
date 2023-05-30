@@ -43,7 +43,7 @@ export default function Gpt() {
           10 Questions
         </button>
         <button className="custom-button bg-blue-500 hover:bg-blue-600" onClick={(e) => onPressType(e)}>
-          Speak only in Emoji
+          Emoji Converter
         </button>
       </div>
       {questions ? <Questions /> : ''}

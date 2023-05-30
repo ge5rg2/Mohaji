@@ -142,7 +142,6 @@ export default function Questions() {
           </button>
         </div>
       )}
-      <button onClick={() => console.log(wholeChat)}>CHECK</button>
     </div>
   );
 }
