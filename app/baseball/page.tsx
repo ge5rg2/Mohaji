@@ -8,7 +8,6 @@ import React, { useEffect, useState } from 'react';
  */
 
 export default function Baseball() {
-  const resultElement = document.querySelector('#result');
   const [chance, setChance] = useState<number>(9);
   const [answer, setAnswer] = useState<number[]>([]);
   const [userAnswer, setUserAnswer] = useState<string>('');
@@ -16,6 +15,7 @@ export default function Baseball() {
   const [lastResultAnswer, setLastResultAnswer] = useState<string[]>([]);
   const [isStart, setIsStart] = useState<boolean>(false);
   const [isHomerun, setIsHomeRun] = useState<boolean>(false);
+  const [result, setResult] = useState<string>('');
 
   /** 리셋 혹은 시작 함수 */
   const onReset = () => {
@@ -23,9 +23,7 @@ export default function Baseball() {
     setLastResultAnswer([]);
     setLastUserAnswer([]);
     setChance(9);
-    if (resultElement) {
-      resultElement.innerHTML = '';
-    }
+    setResult('');
     random_number();
     setIsStart(true);
   };
@@ -76,10 +74,8 @@ export default function Baseball() {
     if (userAnswer === answer.join('')) {
       // 정답을 맞췄을 경우
       alert('Home run!');
-      if (resultElement) {
-        setLastResultAnswer((pre) => [...pre, 'HOMERUN']);
-        resultElement.innerHTML = 'Homerun!!!👏';
-      }
+      setResult('Homerun!!!👏');
+      setLastResultAnswer((pre) => [...pre, 'HOMERUN']);
       setIsHomeRun(true);
       setUserAnswer('');
       setIsStart(false);
@@ -105,14 +101,12 @@ export default function Baseball() {
           }
         }
 
-        if (resultElement) {
-          if (strike == 0 && ball == 0) {
-            setLastResultAnswer((pre) => [...pre, 'OUT']);
-            resultElement.innerHTML = 'OUT 😩';
-          } else {
-            setLastResultAnswer((pre) => [...pre, strike + ' strike ' + ball + ' ball ']);
-            resultElement.innerHTML = strike + ' strike ' + ball + ' ball ';
-          }
+        if (strike == 0 && ball == 0) {
+          setLastResultAnswer((pre) => [...pre, 'OUT']);
+          setResult('OUT 😩');
+        } else {
+          setLastResultAnswer((pre) => [...pre, strike + ' strike ' + ball + ' ball ']);
+          setResult(strike + ' strike ' + ball + ' ball ');
         }
       }
 
@@ -130,7 +124,7 @@ export default function Baseball() {
     <main className="flex flex-col items-center">
       <div>Baseball ⚾️</div>
       <div id="question">Guess 3 digit random number! Each number is different.</div>
-      <div id="result"></div>
+      <div>{result}</div>
       {/* <div>{...answer}</div> */}
       <div>
         <span>Your chance: {chance}</span>
