@@ -12,6 +12,8 @@ export default function Mystery() {
     num: 0,
     seq: '',
   });
+  const [start, setStart] = useState(false);
+  const [reset, setReset] = useState(false);
   const containerRef = useRef<any>(null);
   const containerAnswerRef = useRef<any>(null);
 
@@ -32,13 +34,14 @@ export default function Mystery() {
           const containerAnswer = containerAnswerRef.current;
           containerAnswer.innerHTML = data.result;
         }
+        setReset(true);
       }
     } catch (error: unknown) {
       console.log(error);
     }
   };
 
-  const onSearchQuiz = async () => {
+  const onSearchQuiz = async (e: React.MouseEvent<HTMLButtonElement>) => {
     try {
       const response = await fetch('/api/mysteryQuiz', {
         method: 'GET',
@@ -55,6 +58,17 @@ export default function Mystery() {
           const container = containerRef.current;
           container.innerHTML = data.result;
         }
+        if (reset) {
+          // '다음 퀴즈' 버튼을 클릭한 경우
+          setStart(true);
+          setReset(false);
+          if (containerAnswerRef.current) {
+            containerAnswerRef.current.innerHTML = '';
+          }
+        } else {
+          // '시작' 버튼을 클릭한 경우
+          setStart(true);
+        }
       }
     } catch (error: unknown) {
       console.log(error);
@@ -65,15 +79,19 @@ export default function Mystery() {
     <main className="flex flex-col items-center">
       <div className="text-3xl font-bold mb-8">추리퀴즈🕵️</div>
       <div>
-        <button className="bg-gray-500 hover:bg-gray-600 custom-button" onClick={onSearchQuiz}>
-          Start
+        <button className="bg-gray-500 hover:bg-gray-600 custom-button" onClick={(e) => onSearchQuiz(e)}>
+          {reset ? '다음 퀴즈' : '시작'}
         </button>
       </div>
       <div className="flex flex-col p-10">
         <div ref={containerRef} />
-        <button onClick={onQuizAnswer} className="bg-gray-500 hover:bg-gray-600 custom-button">
-          Answer
-        </button>
+        {start ? (
+          <button onClick={onQuizAnswer} className="bg-gray-500 hover:bg-gray-600 custom-button">
+            정답
+          </button>
+        ) : (
+          ''
+        )}
         <div ref={containerAnswerRef} />
       </div>
     </main>
