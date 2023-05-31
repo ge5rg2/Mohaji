@@ -122,18 +122,20 @@ export default function Baseball() {
 
   return (
     <main className="flex flex-col items-center">
-      <div>숫자야구 ⚾️</div>
-      <div id="question">3자리의 숫자를 맞춰주세요!</div>
-      <div>{result}</div>
+      <div className="text-3xl font-bold mb-8">숫자야구 ⚾️</div>
+      <div id="question" className="text-xl mb-4">
+        3자리의 숫자를 맞춰주세요!
+      </div>
+      <div className="mb-4">{result}</div>
       {/* <div>{...answer}</div> */}
-      <div>
-        <span>남은 기회: {chance}</span>
+      <div className="mb-4">
+        <span className="mr-2">남은 기회: {chance}</span>
         <span id="remainedChance"></span>
       </div>
       {isStart ? (
-        <form id="answer_form" onSubmit={(e) => onCheck(e)}>
+        <form id="answer_form" onSubmit={(e) => onCheck(e)} className="mb-4">
           <input
-            className="border border-black mr"
+            className="border border-black mr-2 p-2"
             required={true}
             maxLength={3}
             value={userAnswer}
@@ -141,23 +143,25 @@ export default function Baseball() {
             type="text"
             onChange={(e) => onAnswerChange(e)}
           />
-          <button>제출</button>
+          <button className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2">제출</button>
         </form>
       ) : (
         ''
       )}
 
-      <button onClick={onReset}>{isStart ? '재시작' : isHomerun ? '재도전?' : '시작!'}</button>
+      <button className="bg-blue-500 hover:bg-blue-600 custom-button" onClick={onReset}>
+        {isStart ? '재시작' : isHomerun ? '재도전?' : '시작!'}
+      </button>
       {lastUserAnswer.length > 0 ? (
         <div>
-          지난 기록
+          <div className="font-bold mb-2">지난 기록</div>
           {lastUserAnswer
             .slice()
             .reverse()
             .map((e, index) => (
-              <div key={index}>
-                <span className="m-2">{e}</span>
-                <span className="m-2">{lastResultAnswer[lastResultAnswer.length - 1 - index]}</span>
+              <div key={index} className="flex">
+                <span className="mr-2">{e}</span>
+                <span>{lastResultAnswer[lastResultAnswer.length - 1 - index]}</span>
               </div>
             ))}
         </div>

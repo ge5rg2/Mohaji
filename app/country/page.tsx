@@ -134,42 +134,57 @@ export default function Country() {
 
   return (
     <main className="flex flex-col items-center">
-      <div>수도퀴즈 🌎</div>
+      <div className="text-3xl font-bold mb-8">수도퀴즈 🌎</div>
       {start ? (
         ''
       ) : (
-        <div>
+        <div className="mb-4">
           난이도
-          <form onSubmit={(e) => onChoseLevel(e)}>
-            <input type="number" name="level" max={4} min={1} defaultValue={1} />
-            <button>시작</button>
+          <form onSubmit={(e) => onChoseLevel(e)} className="flex items-center">
+            <input
+              type="number"
+              name="level"
+              max={4}
+              min={1}
+              defaultValue={1}
+              className="border border-black mr-2 p-2"
+            />
+            <button className="bg-gray-500 hover:bg-gray-600 custom-button">시작</button>
           </form>
         </div>
       )}
       {start ? (
         counter > 0 ? (
           <>
-            <div>{counter}</div>
+            <div className="text-2xl font-bold mb-4">{counter}</div>
           </>
         ) : isOver ? (
           <>
-            {isClear ? <div>축하합니다!👏</div> : <div>정답: {capital[score][1]}</div>}
-            <div>점수: {score}</div>
-            <button onClick={onRestart}>재시도</button>
+            {isClear ? (
+              <div className="text-xl font-bold mb-4">축하합니다!👏</div>
+            ) : (
+              <div className="text-xl font-bold mb-4">정답: {capital[score][1]}</div>
+            )}
+            <div className="text-xl mb-4">점수: {score}</div>
+            <button className="bg-blue-500 hover:bg-blue-600 custom-button" onClick={onRestart}>
+              재시도
+            </button>
           </>
         ) : (
           <>
-            <div>점수: {score}</div>
-            <div>{capital[score][0]}</div>
-            <div>{quizCounter}</div>
+            <div className="text-xl mb-4">점수: {score}</div>
+            <div className="text-2xl mb-4">{capital[score][0]}</div>
+            <div className="text-2xl mb-4">{quizCounter}</div>
             <div>
-              <form onSubmit={(e) => onSubmitAnswer(e)}>
-                <input name="userAnswer" className="border border-black mr" type="text" required={true} />
-                <button type="submit">입력</button>
+              <form onSubmit={(e) => onSubmitAnswer(e)} className="flex items-center">
+                <input name="userAnswer" className="border border-black mr-2 p-2" type="text" required={true} />
+                <button className="bg-gray-500 hover:bg-gray-600 custom-button" type="submit">
+                  입력
+                </button>
               </form>
-              <div>
+              {/* <div className="text-2xl">
                 {Math.floor(stopwatch / 60)}분 {stopwatch % 60}초
-              </div>
+              </div> */}
             </div>
           </>
         )
