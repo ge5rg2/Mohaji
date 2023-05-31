@@ -41,7 +41,7 @@ export default function Mystery() {
     }
   };
 
-  const onSearchQuiz = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onSearchQuiz = async () => {
     try {
       const response = await fetch('/api/mysteryQuiz', {
         method: 'GET',
@@ -79,7 +79,7 @@ export default function Mystery() {
     <main className="flex flex-col items-center">
       <div className="text-3xl font-bold mb-8">추리퀴즈🕵️</div>
       <div>
-        <button className="bg-gray-500 hover:bg-gray-600 custom-button" onClick={(e) => onSearchQuiz(e)}>
+        <button className="bg-gray-500 hover:bg-gray-600 custom-button" onClick={onSearchQuiz}>
           {reset ? '다음 퀴즈' : '시작'}
         </button>
       </div>
