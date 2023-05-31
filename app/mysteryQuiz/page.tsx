@@ -63,7 +63,7 @@ export default function Mystery() {
 
   return (
     <main className="flex flex-col items-center">
-      <div>Mystery Quiz🕵️</div>
+      <div>추리퀴즈🕵️</div>
       <div>
         <button className="bg-gray-500 hover:bg-gray-600 custom-button" onClick={onSearchQuiz}>
           Start

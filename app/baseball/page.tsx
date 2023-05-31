@@ -122,12 +122,12 @@ export default function Baseball() {
 
   return (
     <main className="flex flex-col items-center">
-      <div>Baseball ⚾️</div>
-      <div id="question">Guess 3 digit random number! Each number is different.</div>
+      <div>숫자야구 ⚾️</div>
+      <div id="question">3자리의 숫자를 맞춰주세요!</div>
       <div>{result}</div>
       {/* <div>{...answer}</div> */}
       <div>
-        <span>Your chance: {chance}</span>
+        <span>남은 기회: {chance}</span>
         <span id="remainedChance"></span>
       </div>
       {isStart ? (
@@ -141,16 +141,16 @@ export default function Baseball() {
             type="text"
             onChange={(e) => onAnswerChange(e)}
           />
-          <button>submit</button>
+          <button>제출</button>
         </form>
       ) : (
         ''
       )}
 
-      <button onClick={onReset}>{isStart ? 'Reset' : isHomerun ? 'Try again?' : 'Start!'}</button>
+      <button onClick={onReset}>{isStart ? '재시작' : isHomerun ? '재도전?' : '시작!'}</button>
       {lastUserAnswer.length > 0 ? (
         <div>
-          last answer
+          지난 기록
           {lastUserAnswer
             .slice()
             .reverse()

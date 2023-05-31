@@ -34,16 +34,16 @@ export default function Gpt() {
 
   return (
     <main className="flex flex-col items-center">
-      <div>Choose keywords to play with 🤖</div>
+      <div>다음 목록 중 하나를 선택하세요</div>
       <div>
         <button className="custom-button bg-blue-500 hover:bg-blue-600" name="word" onClick={(e) => onPressType(e)}>
-          Word-Chain
+          끝말잇기
         </button>
         <button className="custom-button bg-blue-500 hover:bg-blue-600" name="que" onClick={(e) => onPressType(e)}>
-          10 Questions
+          10 Q&A
         </button>
         <button className="custom-button bg-blue-500 hover:bg-blue-600" onClick={(e) => onPressType(e)}>
-          Emoji Converter
+          Emoji 변환기
         </button>
       </div>
       {questions ? <Questions /> : ''}

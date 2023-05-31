@@ -12,13 +12,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en">
       <body>
         <div className="navbar">
+          <Link href="/baseball">⚾</Link>
+          <Link href="/country">🌎</Link>
           <Link href="/" className="logo">
             Mohaji
           </Link>
-          <Link href="/baseball">Baseball</Link>
-          <Link href="/country">Country</Link>
-          <Link href="/gpt">Play with GPT</Link>
-          <Link href="/mysteryQuiz">Mystery Quiz</Link>
+          <Link href="/gpt">🤖</Link>
+          <Link href="/mysteryQuiz">🕵️</Link>
         </div>
         {children}
       </body>

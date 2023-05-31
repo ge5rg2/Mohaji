@@ -70,7 +70,7 @@ export default function Country() {
         clearInterval(countDownIntervalId.current!);
         clearInterval(stopwatchIntervalId.current!);
         setCountDownRunning(false);
-        alert(`You all passed!! Your record time: ${stopwatch} seconds`);
+        alert(`통과!! 당신은 ${stopwatch}초만에 완료했습니다.`);
         setIsClear(true);
         setIsOver(true);
       } else {
@@ -134,15 +134,15 @@ export default function Country() {
 
   return (
     <main className="flex flex-col items-center">
-      <div>Country 🌎</div>
+      <div>수도퀴즈 🌎</div>
       {start ? (
         ''
       ) : (
         <div>
-          Chose the level
+          난이도
           <form onSubmit={(e) => onChoseLevel(e)}>
             <input type="number" name="level" max={4} min={1} defaultValue={1} />
-            <button>Start</button>
+            <button>시작</button>
           </form>
         </div>
       )}
@@ -153,19 +153,19 @@ export default function Country() {
           </>
         ) : isOver ? (
           <>
-            {isClear ? <div>Congratuation!👏</div> : <div>Answer: {capital[score][1]}</div>}
-            <div>Score: {score}</div>
-            <button onClick={onRestart}>Restart</button>
+            {isClear ? <div>축하합니다!👏</div> : <div>정답: {capital[score][1]}</div>}
+            <div>점수: {score}</div>
+            <button onClick={onRestart}>재시도</button>
           </>
         ) : (
           <>
-            <div>Score: {score}</div>
+            <div>점수: {score}</div>
             <div>{capital[score][0]}</div>
             <div>{quizCounter}</div>
             <div>
               <form onSubmit={(e) => onSubmitAnswer(e)}>
                 <input name="userAnswer" className="border border-black mr" type="text" required={true} />
-                <button type="submit">Enter</button>
+                <button type="submit">입력</button>
               </form>
               <div>
                 {Math.floor(stopwatch / 60)}분 {stopwatch % 60}초
