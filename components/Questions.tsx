@@ -81,7 +81,7 @@ export default function Questions() {
 
   return (
     <div className="flex flex-col items-center">
-      <h1>10 Questions</h1>
+      <h1 className="text-3xl font-bold mb-8">10 Questions</h1>
       {start ? (
         <>
           <form onSubmit={onHandleSubmit}>

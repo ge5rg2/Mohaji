@@ -35,17 +35,27 @@ export default function Emoji() {
 
   return (
     <div className="flex flex-col items-center">
-      <div>Emoji😎 Converter</div>
-      <form className="flex flex-col" onSubmit={onHandleSubmit}>
+      <div className="text-3xl font-bold mb-8">Emoji😎 변환기</div>
+      <form onSubmit={onHandleSubmit}>
         <input
-          className="border border-black mr-2 "
+          className="border border-black mr-2 p-2"
           type="text"
           value={reqValue}
           onChange={(e) => setReqValue(e.target.value)}
         />
-        <button type="submit">Convert!</button>
+        <button className="custom-button bg-blue-500 hover:bg-blue-600" type="submit">
+          변환!
+        </button>
       </form>
-      {result ? <div>{preValue + ' ---> ' + result}</div> : ''}
+      {result ? (
+        <div>
+          <div className="div_box mb-3">{preValue}</div>
+          <div className="text-center text-2xl">⬇️</div>
+          <div className="div_box mt-3">{result}</div>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 }

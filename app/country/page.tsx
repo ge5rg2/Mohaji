@@ -90,12 +90,10 @@ export default function Country() {
   };
 
   /** 퀴즈 난이도 선택 및 시작 함수 */
-  const onChoseLevel = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const inputElement = (e.currentTarget as HTMLFormElement).elements.namedItem('level') as HTMLInputElement;
-    const inputNumber = inputElement.value;
+  const onStrat = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const { name } = e.target as HTMLButtonElement;
     try {
-      const response = await fetch(`/api/capital?level=${inputNumber}`, { method: 'GET' });
+      const response = await fetch(`/api/capital?level=${name}`, { method: 'GET' });
       const result = await response.json();
       const parsedData = JSON.parse(result);
       setStart(true);
@@ -138,19 +136,22 @@ export default function Country() {
       {start ? (
         ''
       ) : (
-        <div className="mb-4">
+        <div className="mb-4 text-center flex flex-col">
           난이도
-          <form onSubmit={(e) => onChoseLevel(e)} className="flex items-center">
-            <input
-              type="number"
-              name="level"
-              max={4}
-              min={1}
-              defaultValue={1}
-              className="border border-black mr-2 p-2"
-            />
-            <button className="bg-gray-500 hover:bg-gray-600 custom-button">시작</button>
-          </form>
+          <div>
+            <button className="tpyebutton m-2" name="1" onClick={(e) => onStrat(e)}>
+              1단계
+            </button>
+            <button className="tpyebutton m-2" name="2" onClick={(e) => onStrat(e)}>
+              2단계
+            </button>
+            <button className="tpyebutton m-2" name="3" onClick={(e) => onStrat(e)}>
+              3단계
+            </button>
+            <button className="tpyebutton m-2" name="4" onClick={(e) => onStrat(e)}>
+              4단계
+            </button>
+          </div>
         </div>
       )}
       {start ? (

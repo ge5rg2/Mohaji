@@ -76,3 +76,10 @@ body {
   background-color: #f7f7f7;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
+
+.div_box {
+  width: 300px;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
