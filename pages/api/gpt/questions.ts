@@ -55,7 +55,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
               role: 'user',
               content:
                 tpye == 'q'
-                  ? 'If you understand the game and are ready to play, answer "START🤖".'
+                  ? 'If you understand the game and are ready to play, answer "START🤖" Then I wll ask you a question.'
                   : `If you understand the game and are ready to play, Ask me the first question.`,
             },
           ],

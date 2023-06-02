@@ -86,32 +86,54 @@ export default function Questions() {
         <>
           <form onSubmit={onHandleSubmit}>
             <input
-              className="border border-black mr-2 "
+              className="border border-black mr-2 p-2"
               type="text"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
             />
-            <button type="submit">Ask!</button>
+            <button className="custom-button bg-blue-500 hover:bg-blue-600" type="submit">
+              Ask!
+            </button>
           </form>
           {type == 'q' ? (
-            <div>
-              {answer.length > 0 ? <div>{answer[0].content}</div> : ''}
+            <div className="flex flex-col items-center">
+              {answer.length > 0 ? (
+                <>
+                  <div className="text-center text-xl">대답</div>
+                  <div className="div_box mb-3">{answer[0].content}</div>
+                </>
+              ) : (
+                ''
+              )}
               {qusArr.map((el, index) => (
-                <div key={index}>
-                  <span>{10 - (index + 1)}🕐</span>
-                  <span>🧑{el.content}</span>
-                  <span>🤖{answer[index + 1].content}</span>
+                <div className="flex flex-col items-center mb-3" key={index}>
+                  <div className="div_box mb-3">{10 - (index + 1)}🕐</div>
+                  <div className="flex flex-col items-center div_box">
+                    <span>🧑{el.content}</span>
+                    <div className="text-center text-2xl mb-3">⬇️</div>
+                    <span>🤖{answer[index + 1].content}</span>
+                  </div>
                 </div>
               ))}
             </div>
           ) : (
             <div>
-              {answer.length > 0 ? <div>{answer[answer.length - 1].content}</div> : ''}
+              {answer.length > 0 ? (
+                <>
+                  <div className="text-center text-xl">질문</div>
+                  <div className="div_box mb-3">{answer[answer.length - 1].content}</div>
+                </>
+              ) : (
+                ''
+              )}
               {qusArr.map((el, index) => (
-                <div key={index}>
-                  <span>{10 - (index + 1)}🕐</span>
-                  <span>🧑{el.content}</span>
-                  <span>🤖{answer[index].content}</span>
+                <div key={index} className="flex flex-col items-center mb-3">
+                  <div>{10 - (index + 1)}🕐</div>
+                  <div className="flex flex-col items-center div_box">
+                    <span>🤖{answer[index].content}</span>
+                    <div className="text-center text-2xl mb-3">⬇️</div>
+                    <span>🧑{el.content}</span>
+                  </div>
                 </div>
               ))}
             </div>

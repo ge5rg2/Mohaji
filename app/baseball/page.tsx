@@ -105,8 +105,8 @@ export default function Baseball() {
           setLastResultAnswer((pre) => [...pre, 'OUT']);
           setResult('OUT 😩');
         } else {
-          setLastResultAnswer((pre) => [...pre, strike + ' strike ' + ball + ' ball ']);
-          setResult(strike + ' strike ' + ball + ' ball ');
+          setLastResultAnswer((pre) => [...pre, strike + 'S ' + ball + 'B']);
+          setResult(strike + 'S ' + ball + 'B');
         }
       }
 
@@ -154,12 +154,12 @@ export default function Baseball() {
       </button>
       {lastUserAnswer.length > 0 ? (
         <div>
-          <div className="font-bold mb-2">지난 기록</div>
+          <div className="font-bold mb-2 text-center">지난 기록</div>
           {lastUserAnswer
             .slice()
             .reverse()
             .map((e, index) => (
-              <div key={index} className="flex">
+              <div key={index} className="mb-3 div_box flex justify-between">
                 <span className="mr-2">{e}</span>
                 <span>{lastResultAnswer[lastResultAnswer.length - 1 - index]}</span>
               </div>

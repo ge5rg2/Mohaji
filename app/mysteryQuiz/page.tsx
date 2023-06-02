@@ -61,7 +61,6 @@ export default function Mystery() {
         if (reset) {
           // '다음 퀴즈' 버튼을 클릭한 경우
           setStart(true);
-          setReset(false);
           if (containerAnswerRef.current) {
             containerAnswerRef.current.innerHTML = '';
           }
