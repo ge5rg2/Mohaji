@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 /**
  * DB를 활용해서 유저가 맞춘 시간으로 타임순위를 기록할 수 있는 기록판 생성
@@ -69,6 +69,7 @@ export default function Baseball() {
 
   /** 제출 시 동작 함수 */
   const onCheck = async (e: React.FormEvent<HTMLFormElement>) => {
+    debugger;
     e.preventDefault();
     setLastUserAnswer((pre) => [...pre, Number(userAnswer)]);
     if (userAnswer === answer.join('')) {
@@ -85,12 +86,9 @@ export default function Baseball() {
       let ball = 0;
       setChance((lastChance) => (lastChance -= 1));
       const life = chance;
-      if (life < 1) {
+      if (life < 2) {
         // 10번 넘게 틀린 경우
-        alert(`fail!! the answer is ${{ ...answer }}`);
-        setUserAnswer('');
-        random_number();
-        setChance(10);
+        alert(`fail!! the answer is ${answer.join('')}`);
       } else {
         // 10번 미만으로 틀린 경우
         for (let i = 0; i < 3; i += 1) {
@@ -115,11 +113,6 @@ export default function Baseball() {
     }
   };
 
-  useEffect(() => {
-    setAnswer([]);
-    setChance(9);
-  }, []);
-
   return (
     <main className="flex flex-col items-center">
       <div className="text-3xl font-bold mb-8">숫자야구 ⚾️</div>
@@ -128,23 +121,25 @@ export default function Baseball() {
       </div>
       <div className="mb-4">{result}</div>
       {/* <div>{...answer}</div> */}
-      <div className="mb-4">
-        <span className="mr-2">남은 기회: {chance}</span>
-        <span id="remainedChance"></span>
-      </div>
       {isStart ? (
-        <form id="answer_form" onSubmit={(e) => onCheck(e)} className="mb-4">
-          <input
-            className="border border-black mr-2 p-2"
-            required={true}
-            maxLength={3}
-            value={userAnswer}
-            id="answerInput"
-            type="text"
-            onChange={(e) => onAnswerChange(e)}
-          />
-          <button className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2">제출</button>
-        </form>
+        <>
+          <div className="mb-4">
+            <span className="mr-2">남은 기회: {chance}</span>
+            <span id="remainedChance"></span>
+          </div>
+          <form id="answer_form" onSubmit={(e) => onCheck(e)} className="mb-4">
+            <input
+              className="border border-black mr-2 p-2"
+              required={true}
+              maxLength={3}
+              value={userAnswer}
+              id="answerInput"
+              type="text"
+              onChange={(e) => onAnswerChange(e)}
+            />
+            <button className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2">제출</button>
+          </form>
+        </>
       ) : (
         ''
       )}

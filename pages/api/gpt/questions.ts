@@ -7,7 +7,7 @@ dotenv.config({ path: __dirname + '/.env' });
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   const question = req.body.question || '';
   const { pre, keyword, tpye } = req.body;
-  const promptAsk = `Your considering ${keyword}. I must query to you, and you shall respond with a yes or no. Based on your response, I must determine the ${keyword} your thinking of. If i get it right within 10 querys, you loose!`;
+  const promptAsk = `Your considering ${keyword}. I gonna query to you, and you shall respond with a yes or no. Based on your response, I am gonna determine the ${keyword} your thinking of. If i get it right within 10 querys, you loose!`;
   const promptAns = `I’m considering ${keyword}. You must query to me, and I shall respond with a yes or no. Based on my response, you must determine the ${keyword} I thinking of. If you get it right within 10 querys, you win!`;
 
   if (pre.length > 0) {
@@ -55,7 +55,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
               role: 'user',
               content:
                 tpye == 'q'
-                  ? 'If you understand the game and are ready to play, answer "START🤖" Then I wll ask you a question.'
+                  ? 'If you understand the game and are ready to play, you say "START🤖" Then I wll ask you a question.'
                   : `If you understand the game and are ready to play, Ask me the first question.`,
             },
           ],
