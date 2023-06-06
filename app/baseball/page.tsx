@@ -69,7 +69,6 @@ export default function Baseball() {
 
   /** 제출 시 동작 함수 */
   const onCheck = async (e: React.FormEvent<HTMLFormElement>) => {
-    debugger;
     e.preventDefault();
     setLastUserAnswer((pre) => [...pre, Number(userAnswer)]);
     if (userAnswer === answer.join('')) {
@@ -119,27 +118,31 @@ export default function Baseball() {
       <div id="question" className="text-xl mb-4">
         3자리의 숫자를 맞춰주세요!
       </div>
-      <div className="mb-4">{result}</div>
+      {chance < 1 ? <div>아쉽네요. 정답은 {...answer}입니다.</div> : <div className="mb-4">{result}</div>}
       {/* <div>{...answer}</div> */}
       {isStart ? (
-        <>
-          <div className="mb-4">
-            <span className="mr-2">남은 기회: {chance}</span>
-            <span id="remainedChance"></span>
-          </div>
-          <form id="answer_form" onSubmit={(e) => onCheck(e)} className="mb-4">
-            <input
-              className="border border-black mr-2 p-2"
-              required={true}
-              maxLength={3}
-              value={userAnswer}
-              id="answerInput"
-              type="text"
-              onChange={(e) => onAnswerChange(e)}
-            />
-            <button className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2">제출</button>
-          </form>
-        </>
+        chance < 1 ? (
+          ''
+        ) : (
+          <>
+            <div className="mb-4">
+              <span className="mr-2">남은 기회: {chance}</span>
+              <span id="remainedChance"></span>
+            </div>
+            <form id="answer_form" onSubmit={(e) => onCheck(e)} className="mb-4">
+              <input
+                className="border border-black mr-2 p-2"
+                required={true}
+                maxLength={3}
+                value={userAnswer}
+                id="answerInput"
+                type="text"
+                onChange={(e) => onAnswerChange(e)}
+              />
+              <button className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2">제출</button>
+            </form>
+          </>
+        )
       ) : (
         ''
       )}
