@@ -3,7 +3,6 @@ import './styles/globals.css';
 import Link from 'next/link';
 import Head from 'next/head';
 import LoginBtn from './LoginBtn';
-import LogoutBtn from './LogoutBtn';
 import { authOptions } from 'pages/api/auth/[...nextauth]';
 import { getServerSession } from 'next-auth';
 
@@ -32,7 +31,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </Link>
           <Link href="/gpt">🤖</Link>
           <Link href="/mysteryQuiz">🕵️</Link>
-          {session !== null ? <LogoutBtn /> : <LoginBtn />}
+          <LoginBtn islogin={session !== null} />
         </div>
         {children}
       </body>

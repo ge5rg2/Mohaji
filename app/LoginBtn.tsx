@@ -1,6 +1,18 @@
 'use client';
-import { signIn } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
 
-export default function LoginBtn() {
-  return <button onClick={() => signIn()}>🙆‍♂️</button>;
+interface LoginBtnProps {
+  islogin: boolean;
+}
+
+export default function LoginBtn({ islogin }: LoginBtnProps) {
+  const onLoginClick = () => {
+    if (!islogin) {
+      return signIn();
+    } else {
+      return signOut();
+    }
+  };
+
+  return <button onClick={onLoginClick}>{islogin ? '🙅‍♂️' : '🙆‍♂️'}</button>;
 }
