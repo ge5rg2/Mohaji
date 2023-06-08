@@ -1,4 +1,4 @@
-'use client';
+/* 'use client';
 import { signIn, signOut } from 'next-auth/react';
 
 interface LoginBtnProps {
@@ -16,3 +16,4 @@ export default function LoginBtn({ islogin }: LoginBtnProps) {
 
   return <button onClick={onLoginClick}>{islogin ? '🙅‍♂️' : '🙆‍♂️'}</button>;
 }
+ */
