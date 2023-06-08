@@ -2,9 +2,10 @@
 import './styles/globals.css';
 import Link from 'next/link';
 import Head from 'next/head';
-/* import LoginBtn from './LoginBtn';
+import LoginBtn from './LoginBtn';
+import LogoutBtn from './LogoutBtn';
 import { authOptions } from 'pages/api/auth/[...nextauth]';
-import { getServerSession } from 'next-auth'; */
+import { getServerSession } from 'next-auth';
 
 export const metadata = {
   title: 'Mohaji',
@@ -12,8 +13,8 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  /*   const session = await getServerSession(authOptions);
-  console.log(session); */
+  const session = await getServerSession(authOptions);
+
   return (
     <html lang="en">
       <Head>
@@ -31,7 +32,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </Link>
           <Link href="/gpt">🤖</Link>
           <Link href="/mysteryQuiz">🕵️</Link>
-          {/* <LoginBtn islogin={session !== null ? true : false} /> */}
+          {session !== null ? <LogoutBtn /> : <LoginBtn />}
         </div>
         {children}
       </body>
