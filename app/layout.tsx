@@ -13,7 +13,7 @@ export const metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions);
-
+  console.log(session);
   return (
     <html lang="en">
       <Head>
@@ -31,7 +31,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </Link>
           <Link href="/gpt">🤖</Link>
           <Link href="/mysteryQuiz">🕵️</Link>
-          <LoginBtn islogin={session ? true : false} />
+          <LoginBtn islogin={session !== null ? true : false} />
         </div>
         {children}
       </body>
