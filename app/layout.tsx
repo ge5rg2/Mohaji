@@ -2,6 +2,9 @@
 import './styles/globals.css';
 import Link from 'next/link';
 import Head from 'next/head';
+import LoginBtn from './LoginBtn';
+import { authOptions } from 'pages/api/auth/[...nextauth]';
+import { getServerSession } from 'next-auth';
 
 export const metadata = {
   title: 'Mohaji',
@@ -9,6 +12,8 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  let session = await getServerSession(authOptions);
+
   return (
     <html lang="en">
       <Head>
@@ -26,6 +31,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </Link>
           <Link href="/gpt">🤖</Link>
           <Link href="/mysteryQuiz">🕵️</Link>
+          <LoginBtn islogin={session ? true : false} />
         </div>
         {children}
       </body>
