@@ -12,7 +12,9 @@ export default function Gpt() {
   const [selected, setSelected] = useState<boolean>(false);
   const [currentType, setCurrentType] = useState<string>('');
 
-  /** GPT 선택한 컴포넌트 호출 */
+  /** GPT 선택한 컴포넌트 호출
+   * DB에 사용가능한 토큰 수를 각 게임마다 할당.  사용시 토큰 개수 차감
+   */
   const onPressType = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     const { name } = e.target as HTMLButtonElement;
     if (name == 'word') {
