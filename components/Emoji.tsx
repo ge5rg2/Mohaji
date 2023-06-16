@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { userType } from '@/basic/interface/types';
 
 export default function Emoji() {
   const [reqValue, setReqValue] = useState<string>('');
