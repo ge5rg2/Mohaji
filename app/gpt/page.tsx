@@ -57,6 +57,7 @@ export default function Gpt() {
       const session = await getSession();
       const response = await fetch(`/api/userInfo?email=${session?.user?.email}`, { method: 'GET' });
       const result = await response.json();
+
       setResultData(result);
       if (session?.user) {
         const userInfo: userType = {

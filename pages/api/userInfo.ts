@@ -9,8 +9,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const db = client.db('test');
     const { email } = req.query;
     const result = await db.collection('users').findOne({ email });
-    if (result?.setTokenTime) {
-      const currentTime = new Date();
+    const currentTime = new Date();
+    if (result?.setTokenTime && currentTime.getTime() - new Date(result.setTokenTime).getTime()) {
       const tokenTime = new Date(result.setTokenTime);
       const timeDiff = currentTime.getTime() - tokenTime.getTime();
       const twentyFourHours = 24 * 60 * 60 * 1000; // 24 hours in milliseconds

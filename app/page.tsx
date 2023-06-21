@@ -8,6 +8,7 @@ export default async function Home() {
 
   let user = null;
   if (session?.user) {
+    const date = new Date();
     user = await db.collection('users').findOne({ email: session.user.email });
     if (!user?.gptToken) {
       const gptToken = {
@@ -21,7 +22,7 @@ export default async function Home() {
         {
           $set: {
             gptToken,
-            setTokenTime: new Date(),
+            setTokenTime: date,
           },
         },
       );
