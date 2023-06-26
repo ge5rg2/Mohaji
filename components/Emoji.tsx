@@ -2,7 +2,11 @@
 
 import React, { useState } from 'react';
 
-export default function Emoji() {
+interface Token {
+  token: number | undefined;
+}
+
+export default function Emoji({ token }: Token) {
   const [reqValue, setReqValue] = useState<string>('');
   const [preValue, setPreValue] = useState<string>('');
   const [result, setResult] = useState<string>('');
@@ -24,7 +28,6 @@ export default function Emoji() {
       if (response.status !== 200) {
         throw data.error || new Error(`request failed with status ${response.status}`);
       }
-      // console.log(data.token);
       const ans = data.result.choices[0].message.content;
       setResult(ans);
       setPreValue(reqValue);
@@ -37,7 +40,7 @@ export default function Emoji() {
   return (
     <div className="flex flex-col items-center">
       <div className="text-3xl font-bold mb-8">Emoji😎 변환기</div>
-      <span className="text-xs">변환시 보유 토큰이 1 차감됩니다.</span>
+      <span className="text-xs">변환시 보유 토큰이 1 차감됩니다. 현재 보유 {token}</span>
       <form onSubmit={onHandleSubmit}>
         <input
           className="border border-black mr-2 p-2"

@@ -51,31 +51,32 @@ export default function Gpt() {
       setEmoji(false);
     }
     setCurrentType('');
+    fetchSession();
     return setSelected((pre) => !pre);
   };
 
+  const fetchSession = async () => {
+    const session = await getSession();
+    if (!session) {
+      return setIsLogin(false);
+    }
+
+    const response = await fetch(`/api/userInfo?email=${session?.user?.email}`, { method: 'GET' });
+    const result = await response.json();
+
+    setResultData(result);
+    if (session?.user) {
+      setIsLogin(true);
+      const userInfo: userType = {
+        name: session.user.name || '',
+        email: session.user.email || '',
+        image: session.user.image || '',
+      };
+      setUserInfo(userInfo);
+    }
+  };
+
   useEffect(() => {
-    const fetchSession = async () => {
-      const session = await getSession();
-      if (!session) {
-        return setIsLogin(false);
-      }
-
-      const response = await fetch(`/api/userInfo?email=${session?.user?.email}`, { method: 'GET' });
-      const result = await response.json();
-
-      setResultData(result);
-      if (session?.user) {
-        setIsLogin(true);
-        const userInfo: userType = {
-          name: session.user.name || '',
-          email: session.user.email || '',
-          image: session.user.image || '',
-        };
-        setUserInfo(userInfo);
-      }
-    };
-
     fetchSession();
   }, []);
 
@@ -137,7 +138,7 @@ export default function Gpt() {
             </>
           )}
           {questions ? <Questions /> : ''}
-          {emoji && userInfo ? <Emoji /> : ''}
+          {emoji && userInfo ? <Emoji token={resultData?.token?.emoji} /> : ''}
           {word ? <Word /> : ''}
         </>
       ) : (
