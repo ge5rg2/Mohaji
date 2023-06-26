@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const currentTime = new Date();
     // 처음 들어온 유저일 경우
     if (result?.setTokenTime == undefined) {
-      const firstResult = await db.collection('users').findOneAndUpdate(
+      await db.collection('users').findOneAndUpdate(
         { email },
         {
           $set: {
@@ -34,7 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const twentyFourHours = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
       if (timeDiff >= twentyFourHours) {
-        const resendResult = await db.collection('users').findOneAndUpdate(
+        await db.collection('users').findOneAndUpdate(
           { email },
           {
             $set: {
