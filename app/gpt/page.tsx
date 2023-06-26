@@ -6,6 +6,7 @@ import Emoji from 'components/Emoji';
 import Word from 'components/Word';
 import { getSession } from 'next-auth/react';
 import { ResultData, userType } from '../interface/types';
+import { signIn } from 'next-auth/react';
 
 export default function Gpt() {
   const [questions, setQuestions] = useState<boolean>(false);
@@ -15,6 +16,7 @@ export default function Gpt() {
   const [currentType, setCurrentType] = useState<string>('');
   const [resultData, setResultData] = useState<ResultData | null>(null);
   const [userInfo, setUserInfo] = useState<userType | null>(null);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
   /** GPT 선택한 컴포넌트 호출
    * DB에 사용가능한 토큰 수를 각 게임마다 할당.  사용시 토큰 개수 차감
    */
@@ -55,11 +57,16 @@ export default function Gpt() {
   useEffect(() => {
     const fetchSession = async () => {
       const session = await getSession();
+      if (!session) {
+        return setIsLogin(false);
+      }
+
       const response = await fetch(`/api/userInfo?email=${session?.user?.email}`, { method: 'GET' });
       const result = await response.json();
 
       setResultData(result);
       if (session?.user) {
+        setIsLogin(true);
         const userInfo: userType = {
           name: session.user.name || '',
           email: session.user.email || '',
@@ -74,62 +81,77 @@ export default function Gpt() {
 
   return (
     <main className="flex flex-col items-center">
-      {selected ? (
-        <div className="flex items-center justify-between w-2/4">
-          <div>
-            <button className="custom-button " name="home" onClick={onReturnHome}>
-              🏠
-            </button>
-          </div>
-          <div>
-            <button className="custom-button " name="token" onClick={(e) => onPressType(e)}>
-              🪙
+      {isLogin ? (
+        <>
+          {selected ? (
+            <div className="flex items-center justify-between w-2/4">
+              <div>
+                <button className="custom-button " name="home" onClick={onReturnHome}>
+                  🏠
+                </button>
+              </div>
+              <div>
+                <button className="custom-button " name="token" onClick={(e) => onPressType(e)}>
+                  🪙
+                </button>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="font-bold">다음 목록 중 하나를 선택하세요</div>
+              <div className="flex items-center">
+                <div className="flex-col ">
+                  <div>
+                    <button
+                      className="custom-button bg-gray-500 hover:bg-gray-600"
+                      name="word"
+                      onClick={(e) => onPressType(e)}>
+                      끝말잇기
+                    </button>
+                  </div>
+                  <span className="text-center block mt-1">🪙{resultData?.token?.word}</span>
+                </div>
+                <div className="flex-col ">
+                  <div>
+                    <button
+                      className="custom-button bg-gray-500 hover:bg-gray-600"
+                      name="que"
+                      onClick={(e) => onPressType(e)}>
+                      10 Q&A
+                    </button>
+                  </div>
+                  <span className="text-center block mt-1">🪙{resultData?.token?.quiz}</span>
+                </div>
+                <div className="flex-col ">
+                  <div>
+                    <button
+                      className="custom-button bg-gray-500 hover:bg-gray-600"
+                      name="emoji"
+                      onClick={(e) => onPressType(e)}>
+                      Emoji 변환기
+                    </button>
+                  </div>
+                  <span className="text-center block mt-1">🪙{resultData?.token?.emoji}</span>
+                </div>
+              </div>
+            </>
+          )}
+          {questions ? <Questions /> : ''}
+          {emoji && userInfo ? <Emoji /> : ''}
+          {word ? <Word /> : ''}
+        </>
+      ) : (
+        <div className="bg-gray-100 py-4 px-8">
+          <div className="max-w-md mx-auto">
+            <p className="text-center text-gray-600">로그인이 필요한 서비스입니다.</p>
+            <button
+              onClick={() => signIn()}
+              className="mt-4 w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+              로그인하기
             </button>
           </div>
         </div>
-      ) : (
-        <>
-          <div className="font-bold">다음 목록 중 하나를 선택하세요</div>
-          <div className="flex items-center">
-            <div className="flex-col ">
-              <div>
-                <button
-                  className="custom-button bg-gray-500 hover:bg-gray-600"
-                  name="word"
-                  onClick={(e) => onPressType(e)}>
-                  끝말잇기
-                </button>
-              </div>
-              <span className="text-center block mt-1">🪙{resultData?.token.word}</span>
-            </div>
-            <div className="flex-col ">
-              <div>
-                <button
-                  className="custom-button bg-gray-500 hover:bg-gray-600"
-                  name="que"
-                  onClick={(e) => onPressType(e)}>
-                  10 Q&A
-                </button>
-              </div>
-              <span className="text-center block mt-1">🪙{resultData?.token.quiz}</span>
-            </div>
-            <div className="flex-col ">
-              <div>
-                <button
-                  className="custom-button bg-gray-500 hover:bg-gray-600"
-                  name="emoji"
-                  onClick={(e) => onPressType(e)}>
-                  Emoji 변환기
-                </button>
-              </div>
-              <span className="text-center block mt-1">🪙{resultData?.token.emoji}</span>
-            </div>
-          </div>
-        </>
       )}
-      {questions ? <Questions /> : ''}
-      {emoji && userInfo ? <Emoji /> : ''}
-      {word ? <Word /> : ''}
     </main>
   );
 }

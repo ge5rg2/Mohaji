@@ -1,6 +1,5 @@
 'use client';
 import { signIn, signOut } from 'next-auth/react';
-
 interface LoginBtnProps {
   islogin: boolean;
 }
