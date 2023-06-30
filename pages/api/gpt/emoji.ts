@@ -19,7 +19,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         messages: [
           {
             role: 'system',
-            content: 'Convert my sentences to "EMoji" from now on.',
+            content: 'Convert my sentences to "Emoji" from now on.',
           },
           { role: 'user', content: value },
         ],
