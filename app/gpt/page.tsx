@@ -23,15 +23,17 @@ export default function Gpt() {
   const onPressType = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     const { name } = e.target as HTMLButtonElement;
     if (name == 'word') {
-      setCurrentType('word');
+      return alert('서비스 준비 중입니다');
+      /* setCurrentType('word');
       setQuestions(false);
       setEmoji(false);
-      setWord(true);
+      setWord(true); */
     } else if (name == 'que') {
-      setCurrentType('que');
+      return alert('서비스 준비 중입니다');
+      /* setCurrentType('que');
       setEmoji(false);
       setWord(false);
-      setQuestions(true);
+      setQuestions(true); */
     } else {
       setCurrentType('emoji');
       setWord(false);
@@ -138,8 +140,8 @@ export default function Gpt() {
             </>
           )}
           {questions ? <Questions /> : ''}
-          {emoji && userInfo ? <Emoji token={resultData?.token?.emoji} /> : ''}
           {word ? <Word /> : ''}
+          {emoji && userInfo ? <Emoji token={resultData?.token?.emoji} /> : ''}
         </>
       ) : (
         <div className="bg-gray-100 py-4 px-8">
