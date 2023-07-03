@@ -21,24 +21,30 @@ export default function Gpt() {
    * DB에 사용가능한 토큰 수를 각 게임마다 할당.  사용시 토큰 개수 차감
    */
   const onPressType = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    const { name } = e.target as HTMLButtonElement;
-    if (name == 'word') {
-      return alert('서비스 준비 중입니다');
-      /* setCurrentType('word');
+    if (resultData) {
+      const { name } = e.target as HTMLButtonElement;
+      if (name == 'word') {
+        return alert('서비스 준비 중입니다');
+        /* setCurrentType('word');
       setQuestions(false);
       setEmoji(false);
       setWord(true); */
-    } else if (name == 'que') {
-      return alert('서비스 준비 중입니다');
-      /* setCurrentType('que');
+      } else if (name == 'que') {
+        return alert('서비스 준비 중입니다');
+        /* setCurrentType('que');
       setEmoji(false);
       setWord(false);
       setQuestions(true); */
-    } else {
-      setCurrentType('emoji');
-      setWord(false);
-      setQuestions(false);
-      setEmoji(true);
+      } else {
+        if (resultData.token.emoji > 0) {
+          setCurrentType('emoji');
+          setWord(false);
+          setQuestions(false);
+          setEmoji(true);
+        } else {
+          return alert('해당 토큰을 전부 사용했습니다.');
+        }
+      }
     }
     return setSelected(true);
   };
@@ -83,11 +89,11 @@ export default function Gpt() {
   }, []);
 
   return (
-    <main className="flex flex-col items-center">
+    <main className="flex flex-col items-center ">
       {isLogin ? (
         <>
           {selected ? (
-            <div className="flex items-center justify-between w-2/4">
+            <div className="flex items-center justify-between w-2/4 max-w-screen-sm">
               <div>
                 <button className="custom-button " name="home" onClick={onReturnHome}>
                   🏠

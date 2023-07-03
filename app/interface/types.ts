@@ -12,3 +12,12 @@ export interface userType {
   email: string;
   image: string;
 }
+
+export interface Token {
+  token: number | undefined;
+}
+
+export interface NumSeq {
+  num: number;
+  seq: string;
+}

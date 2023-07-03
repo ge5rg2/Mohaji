@@ -30,8 +30,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
     } else if (result?.setTokenTime && currentTime.getTime() - new Date(result.setTokenTime).getTime()) {
       const tokenTime = new Date(result.setTokenTime);
-      const timeDiff = currentTime.getTime() - tokenTime.getTime();
-      const twentyFourHours = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+      const timeDiff = currentTime.getTime() - tokenTime.getTime(); // 하루가 지났다면 24시간보다 더 큰 값이 나오게 됨
+      const twentyFourHours = 24 * 60 * 60 * 1000; // 24 시간을 밀리세컨드로
 
       if (timeDiff >= twentyFourHours) {
         await db.collection('users').findOneAndUpdate(

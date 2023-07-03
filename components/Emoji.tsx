@@ -1,10 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-
-interface Token {
-  token: number | undefined;
-}
+import { Token } from '@/basic/interface/types';
 
 export default function Emoji({ token }: Token) {
   const [reqValue, setReqValue] = useState<string>('');
@@ -33,14 +30,14 @@ export default function Emoji({ token }: Token) {
         if (data.token == 1) {
           if (emojiToken && emojiToken > 1) {
             setEmojiToken((preToken) => (preToken ?? 0) - 1);
+            setResult(ans);
+            setPreValue(reqValue);
+            return setReqValue('');
           } else {
-            alert('토큰을 전부 사용했습니다. 메인 페이지로 이동합니다.');
             window.location.reload();
+            return alert('토큰을 전부 사용했습니다. 메인 페이지로 이동합니다.');
           }
         }
-        setResult(ans);
-        setPreValue(reqValue);
-        setReqValue('');
       }
     } catch (error) {
       console.log(error);
